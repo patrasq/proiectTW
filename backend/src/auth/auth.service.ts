@@ -6,12 +6,13 @@ import { UsersService } from '../users/users.service';
 export class AuthService {
 	constructor(private usersService: UsersService) { }
 
-	async validateUser(username: string, pass: string): Promise<any> {
-		const user = await this.usersService.findOne(username);
-		if (user && user.password === pass) {
-			const { password, ...result } = user;
-			return result;
-		}
-		return null;
-	}
+	// Reference to user.entity created - user.entity was injected in user.services
+	// async validateUser(username: string, pass: string): Promise<any> {
+	// 	const user = await this.usersService.findOne(username);
+	// 	if (user && user.password === pass) {
+	// 		const { password, ...result } = user;
+	// 		return result;
+	// 	}
+	// 	return null;
+	// }
 }
