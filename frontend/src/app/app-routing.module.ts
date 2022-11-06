@@ -13,6 +13,7 @@ const routes: Route[] = [
 				component: LayoutComponent,
 				children: [
 					{ path: 'home', loadChildren: () => import('src/app/modules/home/home.module').then(m => m.HomeModule) },
+					{ path: 'auth', loadChildren: () => import('src/app/modules/auth/auth.module').then(m => m.AuthModule) },
 				]
 			},
 		]
