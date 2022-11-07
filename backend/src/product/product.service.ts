@@ -14,11 +14,10 @@ export class ProductService {
 
   create(createProductDto: CreateProductDto) {
     const newProduct = new Product();
-    const { name, expirationDate } = createProductDto;
-    newProduct.id = Math.random() * 1000;
+    const { name, expirationDate, description } = createProductDto;
     newProduct.name = name;
     newProduct.expirationDate = expirationDate;
-    newProduct.description = '';
+    newProduct.description = description;
     newProduct.category = null;
     newProduct.user = null;
 
@@ -26,11 +25,11 @@ export class ProductService {
   }
 
   findAll() {
-    this.productRepository.find();
+    return this.productRepository.find();
   }
 
   findOne(id: number) {
-    this.productRepository.findOneBy({ id });
+    return this.productRepository.findOneBy({ id });
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {

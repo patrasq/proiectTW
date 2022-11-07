@@ -1,10 +1,13 @@
-import { IsEmpty, IsDate } from 'class-validator';
+import { IsNotEmpty, IsDateString, MaxLength } from 'class-validator';
 
 export class CreateProductDto {
-  @IsEmpty({ message: 'Product name must be provide!' })
+  @IsNotEmpty({ message: 'Product name must be provide!' })
   name: string;
 
-  @IsEmpty({ message: 'Expiration date must be provide!' })
-  @IsDate({ message: 'Must be a date!' })
+  @MaxLength(15)
+  description: string;
+
+  @IsNotEmpty({ message: 'Expiration date must be provide!' })
+  @IsDateString({ message: 'Must be a date!' })
   expirationDate: Date;
 }

@@ -23,11 +23,11 @@ export class UserService {
   }
 
   findAll() {
-    this.userRepository.find();
+    return this.userRepository.find();
   }
 
   findOne(id: number) {
-    this.userRepository.findOneBy({ id });
+    return this.userRepository.findOneBy({ id });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

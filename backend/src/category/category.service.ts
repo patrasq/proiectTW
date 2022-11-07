@@ -15,7 +15,6 @@ export class CategoryService {
   create(createCategoryDto: CreateCategoryDto) {
     const newCategory = new Category();
     const { name } = createCategoryDto;
-    newCategory.id = Math.random() * 1000;
     newCategory.name = name;
     newCategory.products = null;
 
@@ -23,11 +22,11 @@ export class CategoryService {
   }
 
   findAll() {
-    this.categoryRepository.find();
+    return this.categoryRepository.find();
   }
 
   findOne(id: number) {
-    this.categoryRepository.findOneBy({ id });
+    return this.categoryRepository.findOneBy({ id });
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
