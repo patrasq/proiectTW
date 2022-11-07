@@ -17,7 +17,6 @@ export class Product {
   @Column('datetime', {
     name: 'product_expiration_date',
     nullable: true,
-    default: '',
   })
   expirationDate: Date;
 
