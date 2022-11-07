@@ -6,8 +6,11 @@ import { CategoryModule } from './category/category.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 
+import { ConfigModule } from '@nestjs/config';
+
 @Module({
 	imports: [
+		ConfigModule.forRoot(),
 		AuthModule,
 		UserModule,
 		ProductModule,
