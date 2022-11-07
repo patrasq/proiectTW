@@ -7,12 +7,13 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>){}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+  ) {}
 
   create(createUserDto: CreateUserDto) {
     const newUser = new User();
-    const {firstName, lastName, phoneNumber, email} = createUserDto;
+    const { firstName, lastName, phoneNumber, email } = createUserDto;
     newUser.firstName = firstName;
     newUser.lastName = lastName;
     newUser.email = email;
@@ -26,7 +27,7 @@ export class UserService {
   }
 
   findOne(id: number) {
-    this.userRepository.findOneBy({id});
+    this.userRepository.findOneBy({ id });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -34,6 +35,6 @@ export class UserService {
   }
 
   remove(id: number) {
-    this.userRepository.delete({id});
+    this.userRepository.delete({ id });
   }
 }

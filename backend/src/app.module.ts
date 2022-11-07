@@ -9,23 +9,23 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-	imports: [
-		ConfigModule.forRoot(),
-		AuthModule,
-		UserModule,
-		ProductModule,
-		CategoryModule,
-		TypeOrmModule.forRoot({
-			type: 'mysql',
-			host: process.env.DATABASE_HOST,
-			port: parseInt(process.env.DATABASE_PORT),
-			username: process.env.DATABASE_USER,
-			password: process.env.DATABASE_PASS,
-			database: process.env.DATABASE_NAME,
-			entities: [],
-			synchronize: true,
-		}),
-		UserModule,
-	]
+  imports: [
+    ConfigModule.forRoot(),
+    AuthModule,
+    UserModule,
+    ProductModule,
+    CategoryModule,
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASS,
+      database: process.env.DATABASE_NAME,
+      entities: [],
+      synchronize: true,
+    }),
+    UserModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

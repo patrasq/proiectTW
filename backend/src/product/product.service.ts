@@ -7,19 +7,21 @@ import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
-
-  constructor(@InjectRepository(Product) private readonly productRepository: Repository<Product>) {}
+  constructor(
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
+  ) {}
 
   create(createProductDto: CreateProductDto) {
     const newProduct = new Product();
-    const {name, expirationDate} = createProductDto;
+    const { name, expirationDate } = createProductDto;
     newProduct.id = Math.random() * 1000;
     newProduct.name = name;
     newProduct.expirationDate = expirationDate;
     newProduct.description = '';
     newProduct.category = null;
     newProduct.user = null;
-    
+
     this.productRepository.save(newProduct);
   }
 
@@ -28,7 +30,7 @@ export class ProductService {
   }
 
   findOne(id: number) {
-    this.productRepository.findOneBy({id});
+    this.productRepository.findOneBy({ id });
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
@@ -36,6 +38,6 @@ export class ProductService {
   }
 
   remove(id: number) {
-    this.productRepository.delete({id});
+    this.productRepository.delete({ id });
   }
 }
