@@ -4,7 +4,7 @@ import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-	constructor(private usersService: UserService) { }
+	//constructor(private usersService: UserService) { }
 
 	// Reference to user.entity created - user.entity was injected in user.services
 	// async validateUser(username: string, pass: string): Promise<any> {
