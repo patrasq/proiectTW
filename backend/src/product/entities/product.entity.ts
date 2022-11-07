@@ -16,7 +16,11 @@ export class Product{
     })
     name: string;
 
-    @Column('datetime')
+    @Column('datetime', {
+        name: 'product_expiration_date',
+        nullable: true,
+        default: ''
+    })
     expirationDate: Date;
 
     @Column({
