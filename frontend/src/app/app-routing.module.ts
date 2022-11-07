@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route, RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/app/layout/layout.component';
 
-const routes: Routes = [
+const routes: Route[] = [
+	{ path: '', pathMatch: 'full', redirectTo: 'home' },
 	{
 		path: '',
 		children: [
@@ -12,6 +13,7 @@ const routes: Routes = [
 				component: LayoutComponent,
 				children: [
 					{ path: 'home', loadChildren: () => import('src/app/modules/home/home.module').then(m => m.HomeModule) },
+					{ path: 'auth', loadChildren: () => import('src/app/modules/auth/auth.module').then(m => m.AuthModule) },
 				]
 			},
 		]
@@ -19,7 +21,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
+	imports: [RouterModule.forChild(routes)],
 	exports: [RouterModule]
 })
 export class AppRoutingModule { }

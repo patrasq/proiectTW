@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "~@angular/material/prebuilt-themes/purple-green.css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;600&family=Poppins:wght@500;700;900&display=swap');
+
+.inter {
+    font-family: 'Inter', sans-serif;
+}
+
+.poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+.title {
+    @apply text-4xl font-bold poppins;
+}
+
+.subtitle {
+    @apply inter;
+}
+html, body { height: 100%; }
+body { margin: 0; }
