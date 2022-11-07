@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+// import { UserModule } from './user/user.controller';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
 
 @Module({
 	imports: [
 		AuthModule,
-		UsersModule,
+		UserModule,
 		ProductModule,
 		CategoryModule,
 		TypeOrmModule.forRoot({
@@ -21,6 +22,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 			entities: [],
 			synchronize: true,
 		}),
+		UserModule,
 	]
 })
 export class AppModule { }
