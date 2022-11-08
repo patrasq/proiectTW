@@ -13,10 +13,11 @@ export class UserService {
 
   create(createUserDto: CreateUserDto) {
     const newUser = new User();
-    const { firstName, lastName, phoneNumber, email } = createUserDto;
+    const { firstName, lastName, phoneNumber, email, password } = createUserDto;
     newUser.firstName = firstName;
     newUser.lastName = lastName;
     newUser.email = email;
+    newUser.password = password;
     newUser.phoneNumber = phoneNumber;
 
     this.userRepository.save(newUser);

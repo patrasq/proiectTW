@@ -30,6 +30,12 @@ export class User {
   email: string;
 
   @Column({
+    name: 'password',
+    nullable: false,
+  })
+  password: string;
+
+  @Column({
     name: 'phone_number',
     nullable: false,
     default: '',
