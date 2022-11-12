@@ -10,12 +10,21 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
+import * as bcrypt from 'bcrypt';
+import { User } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
-  @Post()
+  @Post('login')
+  async login(@Body() loginUserDto: LoginUserDto) {
+    let user = await this.userService.findOneByEmail(loginUserDto.email) as User;
+    return user ? (await bcrypt.compare(loginUserDto.password, user.password) ? user : 'Incorrect password') : 'User not found';
+  }
+
+  @Post('register')
   async create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
@@ -25,9 +34,14 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get(':email')
+  findOneByEmail(@Param('email') email: string) {
+    return this.userService.findOneByEmail(email);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOneById(+id);
   }
 
   @Patch(':id')

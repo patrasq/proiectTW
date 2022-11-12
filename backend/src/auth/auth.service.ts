@@ -1,15 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  //constructor(private usersService: UserService) { }
-  // Reference to user.entity created - user.entity was injected in user.services
-  // async validateUser(username: string, pass: string): Promise<any> {
-  // 	const user = await this.usersService.findOne(username);
-  // 	if (user && user.password === pass) {
-  // 		const { password, ...result } = user;
-  // 		return result;
-  // 	}
-  // 	return null;
-  // }
+  constructor() {}
+
+  storeHashInDatabase(password: string) {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    return hash;
+  }
 }

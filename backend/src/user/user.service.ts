@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { ClassSerializerInterceptor, forwardRef, Inject, Injectable, UseInterceptors } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from 'src/auth/auth.service';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,25 +10,33 @@ import { User } from './entities/user.entity';
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) {}
+    private readonly authService: AuthService,
+  ) { }
 
-  create(createUserDto: CreateUserDto) {
-    const newUser = new User();
-    const { firstName, lastName, phoneNumber, email, password } = createUserDto;
-    newUser.firstName = firstName;
-    newUser.lastName = lastName;
-    newUser.email = email;
-    newUser.password = password;
-    newUser.phoneNumber = phoneNumber;
+  async create(createUserDto: CreateUserDto) {
+    console.log(createUserDto.email);
+    const user = await this.findOneByEmail(createUserDto.email);
+    if (user !== null) {
+      return 'User already exists';
+    }
 
-    this.userRepository.save(newUser);
+    return this.userRepository.save({ firstName: createUserDto.firstName, 
+      lastName: createUserDto.lastName,
+       email: createUserDto.email, 
+       password: this.authService.storeHashInDatabase(createUserDto.password),
+      phoneNumber: createUserDto.phoneNumber });
   }
 
   findAll() {
     return this.userRepository.find();
   }
 
-  findOne(id: number) {
+  @UseInterceptors(ClassSerializerInterceptor)
+  findOneByEmail(email: string) {
+    return this.userRepository.findOneBy({ email });
+  }
+
+  findOneById(id: number) {
     return this.userRepository.findOneBy({ id });
   }
 
