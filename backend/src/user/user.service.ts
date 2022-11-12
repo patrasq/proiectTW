@@ -14,9 +14,8 @@ export class UserService {
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-    console.log(createUserDto.email);
     const user = await this.findOneByEmail(createUserDto.email);
-    if (user !== null) {
+    if (user) {
       return 'User already exists';
     }
 
