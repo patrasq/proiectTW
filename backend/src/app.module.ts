@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './user/entities/user.entity';
 import { Category } from './category/entities/category.entity';
 import { Product } from './product/entities/product.entity';
+import { UserFriend } from './user/entities/user.friend.entity';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { Product } from './product/entities/product.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASS,
       database: process.env.DATABASE_NAME,
-      entities: [User, Category, Product],
+      entities: [User, Category, Product, UserFriend],
       synchronize: true,
     }),
     UserModule,
