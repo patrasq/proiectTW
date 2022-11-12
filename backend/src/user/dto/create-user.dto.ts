@@ -6,7 +6,6 @@ import {
   MinLength,
   Matches,
 } from 'class-validator';
-import { Unique } from 'typeorm';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -19,7 +18,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
-  
 
   @IsString()
   @MinLength(4)

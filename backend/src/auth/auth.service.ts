@@ -4,9 +4,13 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-  constructor() {}
-
-  storeHashInDatabase(password: string) {
+  /**
+   * Create new hash.
+   *
+   * @param password
+   * @returns string
+   */
+  createHash(password: string) {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     return hash;

@@ -1,4 +1,8 @@
-import { ClassSerializerInterceptor, forwardRef, Inject, Injectable, UseInterceptors } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Injectable,
+  UseInterceptors,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { Repository } from 'typeorm';
@@ -11,7 +15,7 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly authService: AuthService,
-  ) { }
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = await this.findOneByEmail(createUserDto.email);
@@ -19,11 +23,13 @@ export class UserService {
       return 'User already exists';
     }
 
-    return this.userRepository.save({ firstName: createUserDto.firstName, 
+    return this.userRepository.save({
+      firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
-       email: createUserDto.email, 
-       password: this.authService.storeHashInDatabase(createUserDto.password),
-      phoneNumber: createUserDto.phoneNumber });
+      email: createUserDto.email,
+      password: this.authService.createHash(createUserDto.password),
+      phoneNumber: createUserDto.phoneNumber,
+    });
   }
 
   findAll() {

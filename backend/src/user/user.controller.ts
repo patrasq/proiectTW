@@ -16,12 +16,18 @@ import { User } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto) {
-    let user = await this.userService.findOneByEmail(loginUserDto.email) as User;
-    return user ? (await bcrypt.compare(loginUserDto.password, user.password) ? user : 'Incorrect password') : 'User not found';
+    const user = (await this.userService.findOneByEmail(
+      loginUserDto.email,
+    )) as User;
+    return user
+      ? (await bcrypt.compare(loginUserDto.password, user.password))
+        ? user
+        : 'Incorrect password'
+      : 'User not found';
   }
 
   @Post('register')
