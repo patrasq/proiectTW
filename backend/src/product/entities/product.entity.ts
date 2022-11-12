@@ -26,6 +26,13 @@ export class Product {
     default: '',
   })
   description: string;
+  
+  @Column({
+    name: 'product_stock',
+    nullable: false,
+    default: 0,
+  })
+  stock: number;
 
   @ManyToOne(() => User, (user) => user.products, { onDelete: 'SET NULL' })
   user: User;
