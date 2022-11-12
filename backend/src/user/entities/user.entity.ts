@@ -49,7 +49,7 @@ export class User {
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
 
-  @OneToMany(() => UserFriend, (userFriend) => userFriend.user)
+  @OneToMany(() => UserFriend, userFriend => userFriend.user)
   userFriends: UserFriend[];
 
   constructor(entity: Partial<User>) {
