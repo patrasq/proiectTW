@@ -1,6 +1,7 @@
 import { Exclude } from '@nestjs/class-transformer';
 import { Product } from 'src/product/entities/product.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UserFriend } from './user.friend.entity';
 
 @Entity()
 export class User {
@@ -47,6 +48,9 @@ export class User {
 
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
+
+  @OneToMany(() => UserFriend, (userFriend) => userFriend.user)
+  userFriends: UserFriend[];
 
   constructor(entity: Partial<User>) {
     Object.assign(this, entity);
