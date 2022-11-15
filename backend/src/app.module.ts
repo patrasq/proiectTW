@@ -5,6 +5,7 @@ import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { ConfigModule } from '@nestjs/config';
 import { User } from './user/entities/user.entity';
@@ -29,6 +30,7 @@ import { UserFriend } from './user/entities/user.friend.entity';
       entities: [User, Category, Product, UserFriend],
       synchronize: true,
     }),
+    ScheduleModule.forRoot(),
     UserModule,
   ],
 })
