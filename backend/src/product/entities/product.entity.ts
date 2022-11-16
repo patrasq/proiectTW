@@ -26,7 +26,7 @@ export class Product {
     default: '',
   })
   description: string;
-  
+
   @Column({
     name: 'product_stock',
     nullable: false,
@@ -34,7 +34,9 @@ export class Product {
   })
   stock: number;
 
-  @ManyToOne(() => User, (user) => user.products, { onDelete: 'SET NULL' })
+  @ManyToOne(() => User, (user) => user.products, {
+    onDelete: 'SET NULL',
+  })
   user: User;
 
   @ManyToOne(() => Category, (category) => category.products, {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -13,27 +13,37 @@ export class CategoryService {
   ) {}
 
   create(createCategoryDto: CreateCategoryDto) {
-    const newCategory = new Category();
-    const { name } = createCategoryDto;
-    newCategory.name = name;
-    newCategory.products = null;
-
-    this.categoryRepository.save(newCategory);
+    return this.categoryRepository.save({
+      name: createCategoryDto.name,
+    });
   }
 
   findAll() {
     return this.categoryRepository.find();
   }
 
-  findOne(id: number) {
-    return this.categoryRepository.findOneBy({ id });
+  async findOne(id: number) {
+    const category = await this.categoryRepository.findOneBy({ id });
+    if (!category) {
+      throw new HttpException('Category not found!', 404);
+    } else {
+      return category;
+    }
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
     return `This action updates a #${id} category`;
   }
 
-  remove(id: number) {
-    this.categoryRepository.delete({ id });
+  async remove(id: number) {
+    const category = await this.categoryRepository.findBy({ id });
+    if (!category) {
+      throw new HttpException('Category not found!', 404);
+    } else {
+      this.categoryRepository.delete({ id });
+      return {
+        message: `Category with id ${id} deleted successfully!`,
+      };
+    }
   }
 }

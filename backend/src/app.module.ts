@@ -12,6 +12,7 @@ import { User } from './user/entities/user.entity';
 import { Category } from './category/entities/category.entity';
 import { Product } from './product/entities/product.entity';
 import { UserFriend } from './user/entities/user.friend.entity';
+import { HttpExceptionFilter } from './Exception/http-exception.filter';
 
 @Module({
   imports: [
@@ -32,6 +33,12 @@ import { UserFriend } from './user/entities/user.friend.entity';
     }),
     ScheduleModule.forRoot(),
     UserModule,
+  ],
+  providers: [
+    {
+      provide: 'APP_FILTER',
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

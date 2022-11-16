@@ -1,6 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Catch, HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CategoryService } from 'src/category/category.service';
 import { CronJob } from 'src/cron/interceptor';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -11,40 +13,57 @@ export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-   // private readonly cronJob: CronJob,
+    // private readonly cronJob: CronJob,
+    private readonly categoryService: CategoryService,
+    private readonly userService: UserService,
   ) {}
 
-  create(createProductDto: CreateProductDto) {
-    // const newProduct = new Product();
-    // const { name, expirationDate, description } = createProductDto;
-    // newProduct.name = name;
-    // newProduct.expirationDate = expirationDate;
-    // newProduct.description = description;
-    // newProduct.category = null;
-    // newProduct.user = null;
+  async create(createProductDto: CreateProductDto) {
+    const category = await this.categoryService.findOne(
+      createProductDto.categoryId,
+    );
+    const user = await this.userService.findOneById(createProductDto.userId);
 
-    return this.productRepository.save({
-      name: createProductDto.name,
-      expirationDate: createProductDto.expirationDate,
-      description: createProductDto.description,
-    });
-
-    // this.productRepository.save(newProduct);
+    if (!category || user instanceof HttpException) {
+      throw new HttpException('Category or User not found!', 404);
+    } else {
+      return this.productRepository.save({
+        name: createProductDto.name,
+        expirationDate: createProductDto.expirationDate,
+        stock: createProductDto.stock,
+        category: { id: createProductDto.categoryId },
+        userId: { id: createProductDto.userId },
+        description: createProductDto.description,
+      });
+    }
   }
 
   findAll() {
     return this.productRepository.find();
   }
 
-  findOne(id: number) {
-    return this.productRepository.findOneBy({ id });
+  async findOne(id: number) {
+    const product = await this.productRepository.findOneBy({ id });
+    if (!product) {
+      throw new HttpException('Product not found!', 404);
+    } else {
+      return product;
+    }
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: number) {
-    this.productRepository.delete({ id });
+  async remove(id: number) {
+    const product = await this.productRepository.findBy({ id });
+    if (!product) {
+      throw new HttpException('Product not found!', 404);
+    } else {
+      this.productRepository.delete({ id });
+      return {
+        message: `Product with id ${id} deleted successfully!`,
+      };
+    }
   }
 }

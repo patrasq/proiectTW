@@ -1,35 +1,51 @@
 import {
   ClassSerializerInterceptor,
+  HttpException,
+  HttpStatus,
   Injectable,
   UseInterceptors,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthService } from 'src/auth/auth.service';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private readonly authService: AuthService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = await this.findOneByEmail(createUserDto.email);
     if (user) {
-      return 'User already exists';
+      return new HttpException(
+        `User with email ${createUserDto.email} already exists!`,
+        409,
+      );
+    } else {
+      return this.userRepository.save({
+        firstName: createUserDto.firstName,
+        lastName: createUserDto.lastName,
+        email: createUserDto.email,
+        password: this.createHash(createUserDto.password),
+        phoneNumber: createUserDto.phoneNumber,
+      });
     }
+  }
 
-    return this.userRepository.save({
-      firstName: createUserDto.firstName,
-      lastName: createUserDto.lastName,
-      email: createUserDto.email,
-      password: this.authService.createHash(createUserDto.password),
-      phoneNumber: createUserDto.phoneNumber,
-    });
+  /**
+   * Create new hash.
+   *
+   * @param password
+   * @returns string
+   */
+  createHash(password: string) {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    return hash;
   }
 
   findAll() {
@@ -37,19 +53,38 @@ export class UserService {
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
-  findOneByEmail(email: string) {
-    return this.userRepository.findOneBy({ email });
+  async findOneByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
+    if (!user) {
+      return new HttpException(`User with email ${email} not found`, 404);
+    } else {
+      return user;
+    }
   }
 
-  findOneById(id: number) {
-    return this.userRepository.findOneBy({ id });
+  async findOneById(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      return new HttpException(`User with id ${id} not found`, 404);
+    } else {
+      return user;
+    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    this.userRepository.delete({ id });
+  async remove(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      return new HttpException(`User with id ${id} found`, 404);
+    } else {
+      this.userRepository.delete({ id });
+      return {
+        message: `User with id ${id} deleted succesfully!`,
+        status: HttpStatus.OK,
+      };
+    }
   }
 }

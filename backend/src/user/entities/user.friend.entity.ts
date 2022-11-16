@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -8,11 +14,10 @@ export class UserFriend {
   })
   id: number;
 
-  @Column({
-    name: 'friend_name',
-  })
-  friendName: string;
-
-  @ManyToOne(() => User, (user) => user.userFriends)
+  @ManyToOne(() => User)
+  // @JoinColumn({
+  //   name: 'user_id',
+  //   referencedColumnName: 'id',
+  // })
   user: User;
 }

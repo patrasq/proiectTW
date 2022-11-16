@@ -6,6 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
+  HttpStatus,
+  Catch,
+  UseFilters,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';

@@ -1,12 +1,18 @@
 import { Exclude } from '@nestjs/class-transformer';
 import { Product } from 'src/product/entities/product.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserFriend } from './user.friend.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn({
-    name: 'id',
+    name: 'user_id',
   })
   id: number;
 
@@ -40,6 +46,13 @@ export class User {
   password: string;
 
   @Column({
+    name: 'type',
+    nullable: false,
+    default: '',
+  })
+  type: string;
+
+  @Column({
     name: 'phone_number',
     nullable: false,
     default: '',
@@ -49,8 +62,8 @@ export class User {
   @OneToMany(() => Product, (product) => product.user)
   products: Product[];
 
-  @OneToMany(() => UserFriend, (userFriend) => userFriend.user)
-  userFriends: UserFriend[];
+  // @OneToMany(() => UserFriend, (userFriend) => userFriend.user)
+  // userFriends: UserFriend[];
 
   constructor(entity: Partial<User>) {
     Object.assign(this, entity);
