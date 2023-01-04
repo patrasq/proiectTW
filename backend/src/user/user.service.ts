@@ -20,6 +20,7 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     const user = await this.findOneByEmail(createUserDto.email);
+    console.log(user);
     if (user) {
       return new HttpException(
         `User with email ${createUserDto.email} already exists!`,
@@ -55,11 +56,13 @@ export class UserService {
   @UseInterceptors(ClassSerializerInterceptor)
   async findOneByEmail(email: string) {
     const user = await this.userRepository.findOneBy({ email });
-    if (!user) {
-      return new HttpException(`User with email ${email} not found`, 404);
-    } else {
-      return user;
-    }
+    return user;
+    // TO DO: Fix this
+    // if (!user) {
+    //   return new HttpException(`User with email ${email} not found`, 404);
+    // } else {
+    //   return user;
+    // }
   }
 
   async findOneById(id: number) {
