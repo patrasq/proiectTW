@@ -2,44 +2,44 @@
 	<div class="container mx-auto px-4">
 		<h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Sign Up</h1>
 		<form class="bg-white border bg-gray-50 rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="handleSubmit">
-		<div class="flex flex-row">
-			<div class="mb-4">
+		<div class="flex flex-row w-full gap-4">
+			<div class="mb-4 w-6/12">
 				<label class="block text-gray-700 text-sm font-bold mb-2" for="username">
 					First name
 				</label>
-				<input v-model="form.username" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username">
+				<input v-model="form.firstName" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="First name">
 			</div>
-			<div class="mb-4">
+			<div class="mb-4 w-6/12">
 				<label class="block text-gray-700 text-sm font-bold mb-2" for="username">
 					Last name
 				</label>
-				<input v-model="form.username" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username">
+				<input v-model="form.lastName" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Last name">
 			</div>
 		</div>
 		<div class="mb-4">
 			<label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-			Email
+				Email
 			</label>
 			<input v-model="form.email" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email">
 		</div>
+		<div class="mb-6">
+			<label class="block text-gray-700 text-sm font-bold mb-2" for="phoneNumber">
+				Phone number
+			</label>
+			<input v-model="form.phoneNumber" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phoneNumber" placeholder="Phone number">
+		</div>
 		<div class="mb-4">
 			<label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-			Password
+				Password
 			</label>
 			<input v-model="form.password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="********">
 		</div>
-		<div class="mb-6">
-			<label class="block text-gray-700 text-sm font-bold mb-2" for="password_confirmation">
-			Confirm Password
-			</label>
-			<input v-model="form.password_confirmation" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password_confirmation" type="password" placeholder="********">
-		</div>
 		<div class="flex items-center justify-between">
 			<button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-			Sign Up
+				Sign Up
 			</button>
 			<a class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800" href="#">
-			Forgot Password?
+				Forgot Password?
 			</a>
 		</div>
 		</form>
@@ -63,21 +63,15 @@
 	},
 	methods: {
 		handleSubmit() {
-
-		if (this.form.password !== this.form.password_confirmation) {
-			alert('Passwords do not match!')
-			return
+			api.post('/register', this.form)
+				.then(response => {
+					console.log(response)
+				})
+				.catch(error => {
+					console.log(error)
+				})
+			}
 		}
-
-		api.post('/register', this.form)
-			.then(response => {
-			console.log(response)
-			})
-			.catch(error => {
-			console.log(error)
-			})
-		}
-	}
 	}
 	</script>
 
