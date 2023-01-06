@@ -35,7 +35,7 @@
 			<input v-model="form.password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="********">
 		</div>
 		<div class="flex items-center justify-between">
-			<button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+			<button class="bg-gradient-to-br from-green-400 to-green-600 block py-2 px-8 text-white rounded-full" type="submit">
 				Sign Up
 			</button>
 			<a class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800" href="#">
@@ -63,7 +63,7 @@
 	},
 	methods: {
 		handleSubmit() {
-			api.post('/register', this.form)
+			api.post('user/register', this.form)
 				.then(response => {
 					console.log(response)
 				})

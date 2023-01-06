@@ -1,13 +1,7 @@
 <template>
   <div class="container mx-auto px-4">
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Sign Up</h1>
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Log in</h1>
     <form class="bg-white border bg-gray-50 rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="handleSubmit">
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-          Username
-        </label>
-        <input v-model="form.username" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username">
-      </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
           Email
@@ -20,15 +14,9 @@
         </label>
         <input v-model="form.password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="********">
       </div>
-      <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="password_confirmation">
-          Confirm Password
-        </label>
-        <input v-model="form.password_confirmation" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password_confirmation" type="password" placeholder="********">
-      </div>
       <div class="flex items-center justify-between">
-        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-          Sign Up
+        <button class="bg-gradient-to-br from-green-400 to-green-600 block py-2 px-8 text-white rounded-full" type="submit">
+          Log in
         </button>
         <a class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800" href="#">
           Forgot Password?
@@ -46,21 +34,13 @@ export default {
   data() {
     return {
       form: {
-        username: '',
         email: '',
         password: '',
-        password_confirmation: ''
       }
     }
   },
   methods: {
     handleSubmit() {
-
-      if (this.form.password !== this.form.password_confirmation) {
-        alert('Passwords do not match!')
-        return
-      }
-
       api.post('/register', this.form)
         .then(response => {
           console.log(response)

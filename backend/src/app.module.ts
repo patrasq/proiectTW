@@ -1,4 +1,3 @@
-import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 // import { UserModule } from './user/user.controller';
 import { ProductModule } from './product/product.module';
@@ -13,6 +12,9 @@ import { Category } from './category/entities/category.entity';
 import { Product } from './product/entities/product.entity';
 import { UserFriend } from './user/entities/user.friend.entity';
 import { HttpExceptionFilter } from './Exception/http-exception.filter';
+
+import { MiddlewareConsumer, NestModule, Module } from '@nestjs/common';
+import { CorsMiddleware } from './common/cors.middleware';
 
 @Module({
   imports: [
@@ -41,4 +43,8 @@ import { HttpExceptionFilter } from './Exception/http-exception.filter';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer): MiddlewareConsumer | void {
+    consumer.apply(CorsMiddleware).forRoutes('*');
+  }
+}

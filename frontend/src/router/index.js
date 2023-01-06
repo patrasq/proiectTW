@@ -13,7 +13,28 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: () => import('../views/Register.vue')
-    }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/Login.vue')
+    },
+    {
+      path: '/dashboard/profile/:id',
+      name: 'profile',
+      component: () => import('../views/Dashboard/Profile.vue')
+    },
+    {
+      path: '/dashboard/friends',
+      name: 'friends',
+      component: () => import('../views/Dashboard/Friends.vue')
+    },
+    {
+      path: '/dashboard/inventory/:id',
+      name: 'inventory',
+      component: () => import('../views/Dashboard/Inventory.vue')
+    },
+
   ]
 })
 
