@@ -35,7 +35,24 @@ app.mixin({
       
             // return original if no match
             return path
-          }
+        },
+
+        isAuthenticated() {
+            return localStorage.getItem('token') !== null;
+        },
+
+        decodeJwt() {
+            const token = localStorage.getItem('token');
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace('-', '+').replace('_', '/');
+            const decodedToken = JSON.parse(window.atob(base64));
+            
+            return decodedToken;
+        },
+
+        getUser() {
+            return this.isAuthenticated() ? this.decodeJwt() : '';
+        },
     }
 })
 

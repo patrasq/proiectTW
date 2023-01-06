@@ -61,7 +61,27 @@
 </template>
 
 <script>
+import api from '../../services/apiService';
+
 export default {
-    
+    name: "Inventory",
+
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    },
+
+    setup(props) {
+        console.log(props.user);
+        api.get('/inventory/' + props.user.id)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 }
 </script>

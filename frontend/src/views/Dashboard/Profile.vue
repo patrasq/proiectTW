@@ -6,17 +6,18 @@
                 <span class="text-2xl font-bold text-white">33 iteme</span>
             </div>
             <div class="w-12/12 md:w-2/12 flex items-center justify-center p-10">
-                <span class="bg-green-100 text-green-600 w-full text-center py-2 rounded-full">Add as friend</span>
+                <span class="bg-green-100 text-green-600 w-full text-center py-2 rounded-full" v-if="user.id != getUser().id">Add as friend</span>
+                <span class="bg-green-100 text-green-600 w-full text-center py-2 rounded-full" v-else>33 friends</span>
             </div>
         </div>
 
-        <Inventory />
+        <Inventory :user="user" />
     </div>
 </template>
 
 <script>
 import api from '../../services/apiService';
-import Inventory from './Inventory';
+import Inventory from './Inventory.vue';
 
 export default {
     name: "Profile",
