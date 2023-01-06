@@ -11,46 +11,10 @@ const getAll = () => new Promise((resolve, reject) => {
     });
 });
 
-const create = (userObj) => new Promise((resolve, reject) => {
- 
-});
-
-const getById = (id) => new Promise((resolve, reject) => {
-    db.User.findByPk(id)
-    .then((user) => {
-        resolve(user);
-    })
-    .catch((error) => {
-        reject(error);
-    });
-});
-
-const login = (email, password) => new Promise((resolve, reject) => {
-    password = md5(password);
-
-    db.User.findOne({
-        where: {
-            email: email,
-            password: password
-        }
-    })
-    .then((user) => {
-        resolve(user);
-    })
-    .catch((error) => {
-        reject(error);
-    });
-});
-
-const friends = (userId) => new Promise((resolve, reject) => {
-    db.User.findByPk(userId, {
-        include: [{
-            model: db.User,
-            as: 'friends'
-        }]
-    })
-    .then((user) => {
-        resolve(user);
+const create = (inventory) => new Promise((resolve, reject) => {
+    db.Inventory.create(inventory)
+    .then((result) => {
+        resolve(result);
     })
     .catch((error) => {
         reject(error);
@@ -58,9 +22,5 @@ const friends = (userId) => new Promise((resolve, reject) => {
 });
 
 module.exports = {
-    getAll,
-    create,
-    getById,
-    login,
-    friends
+    create
 }

@@ -25,6 +25,14 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false
       },
+      category_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Categories',
+          key: 'id'
+        }
+      },
       expiresAt: {
         type: Sequelize.DATE,
         allowNull: false
