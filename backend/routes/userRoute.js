@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require('../controller/user');
 
 router.get('/', (req, res) => {
-    userController.getAll()
+    userController.getAll(req.query.search ?? null)
     .then((result) => {
         res.send({
             status: 'success',

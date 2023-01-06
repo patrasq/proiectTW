@@ -1,8 +1,27 @@
 const db = require('../models');
 const md5 = require('js-md5');
 const jwt = require('jsonwebtoken');
-const getAll = () => new Promise((resolve, reject) => {
-    db.User.findAll()
+
+const getAll = (search) => new Promise((resolve, reject) => {
+    let users = null;
+
+    if(search) {
+        users = db.User.findAll(
+            {
+                where: {
+                    name: {
+                        [Sequelize.Op.like]: '%' + search + '%'
+                    }
+                }
+            }
+        );
+    } else { 
+        users = db.User.findAll();
+    }
+
+    console.log(users);
+
+    users
     .then((users) => {
         resolve(users);
     })

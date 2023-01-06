@@ -64,6 +64,5 @@ const checkAlerts = () => new Promise((resolve, reject) => {
 
 
 module.exports = {
-    create,
-    getByUserId
+    getAll,
 }

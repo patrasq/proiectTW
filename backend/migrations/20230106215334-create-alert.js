@@ -15,8 +15,21 @@ module.exports = {
       contents: {
         type: Sequelize.STRING
       },
+      inventory_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Inventories',
+          key: 'id'
+        }
+      },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

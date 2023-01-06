@@ -45,29 +45,43 @@
                 <div class="flex flex-row gap-5 items-center justify-end">
                     <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Search" v-model="search">
                 </div>
-                <table class="bg-white rounded-md border table-auto w-full mt-5 overflow-scroll">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2 text-left">Item</th>
-                            <th class="px-4 py-2 text-left">Quantity</th>
-                            <th class="px-4 py-2 text-left">Category</th>
-                            <th class="px-4 py-2 text-left">Expires at</th>
-                            <th class="px-4 py-2 text-left">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="item in inventory" :key="item.id" class="bg-gray-100">
-                            <td class="border px-4 py-2">{{ item.name }}</td>
-                            <td class="border px-4 py-2">{{ item.qty }}</td>
-                            <td class="border px-4 py-2">{{ categories.filter((category) => category.id == item.category_id)[0].name }}</td>
-                            <td class="border px-4 py-2">{{ item.expiresAt}}</td>
-                            <td class="border px-4 py-2">
-                                Claim
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=#url">Share</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+                <div v-for="category in categories" :key="category.id">
+                    <div class="flex flex-col gap-2 mt-10" v-if="hasItems(category.id)">
+                        <span class="text-xl font-bold">{{ category.name }}</span>
+                        <div class="flex flex-row gap-5 items-center justify-start">
+                            <div class="min-w-[250px] bg-white rounded-xl border" v-for="item in itemsByCategory(category.id)" v-bind:key="item.id">
+                                <div class="p-3">
+                                    <h1 class="text-md font-bold">{{  item.name }}</h1>
+
+                                    <div class="flex flex-col">
+                                        <div class="flex flex-col p-3">
+                                            <span class="uppercase text-xs font-bold">Qty</span>
+                                            <span class="text-md font-bold">{{ item.qty }}</span>
+                                        </div> 
+                                        <div class="flex flex-col p-3">
+                                            <span class="uppercase text-xs font-bold">Expires</span>
+                                            <span class="text-md font-bold">{{ timeLeftString(item.expiresAt) }}</span>
+                                        </div>
+
+                                        <span class="uppercase text-xs font-bold pl-3 mt-5">Share</span>
+                                        <div class="flex flex-row p-3 gap-3">
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u=#url" class="px-4 bg-blue-200 text-blue-500 rounded-full text-xs max-w-max py-2">
+                                                FB
+                                            </a>
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u=#url" class="px-4 bg-purple-200 text-purple-500 rounded-full text-xs max-w-max py-2">
+                                                IG
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-green-200 text-green-500 text-center rounded-b-xl py-2 text-xs uppercase cursor-pointer hover:bg-green-300 transition hover:text-green-600" v-if="user.id != getUser().id">
+                                    Claim
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -110,6 +124,20 @@ export default {
     methods: {
         addItem() {
             
+        }
+    },
+
+    computed: {
+        hasItems() {
+            return (id) => {
+                return this.inventory.filter((item) => item.category_id == id).length;
+            }
+        },
+
+        itemsByCategory() {
+            return (id) => {
+                return this.inventory.filter((item) => item.category_id == id);
+            }
         }
     },
 

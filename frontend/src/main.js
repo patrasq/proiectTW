@@ -53,6 +53,26 @@ app.mixin({
         getUser() {
             return this.isAuthenticated() ? this.decodeJwt() : '';
         },
+
+        timeLeft(date) {
+            const now = new Date();
+            const timeLeft = new Date(date) - now;
+            const seconds = Math.floor((timeLeft / 1000) % 60);
+            const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
+            const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            return { days, hours, minutes, seconds };
+        },
+
+        timeLeftString(date) {
+            const timeLeft = this.timeLeft(date);
+
+            if (timeLeft.days < 0 && timeLeft.hours < 0 && timeLeft.minutes < 0 && timeLeft.seconds < 0) {
+                return `Expired`;
+            }
+
+            return `${timeLeft.days}d ${timeLeft.hours}h`;
+        }
     }
 })
 

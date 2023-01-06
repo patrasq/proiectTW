@@ -11,6 +11,7 @@ const alertRoute = require('./routes/alertRoute');
 
 const accessLog = require('./middleware/accessLog');
 const authenticated = require('./middleware/authenticated');
+const inventoryController = require('./controller/inventory');
 
 dotenv.config();
 app.use(bodyParser.json());
@@ -38,6 +39,17 @@ app.get('/', (req, res) => {
     version: '1.0.0'
   });
 });
+
+const interval = setInterval(() => {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMinute = currentTime.getMinutes();
+
+  if (currentHour === 0 && currentMinute === 0) {
+    inventoryController.checkAlerts()
+  }
+}, 60000);
+
 
 app.listen(config.PORT, () => {
   console.log(`Listening at http://localhost:${config.PORT}`);

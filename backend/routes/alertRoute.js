@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const categoryController = require('../controller/category');
+const alertController = require('../controller/alert');
 
 router.get('/', (req, res) => {
-    categoryController.getAll()
+    alertController.getAll()
     .then((result) => {
         res.send({
             status: 'success',

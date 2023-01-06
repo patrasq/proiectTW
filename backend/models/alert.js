@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   Alert.init({
     title: DataTypes.STRING,
     contents: DataTypes.STRING,
-    user_id: DataTypes.INTEGER
+    user_id: DataTypes.INTEGER,
+    inventory_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Alert',
