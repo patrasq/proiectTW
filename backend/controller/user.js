@@ -1,6 +1,6 @@
 const db = require('../models');
-const md5 = require('js-md5');
-
+const md5 = require('js-md5');
+const jwt = require('jsonwebtoken');
 const getAll = () => new Promise((resolve, reject) => {
     db.User.findAll()
     .then((users) => {
@@ -42,9 +42,12 @@ const login = (email, password) => new Promise((resolve, reject) => {
             password: password
         }
     })
+
     .then((user) => {
+        user.dataValues.token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 86400 });
         resolve(user);
     })
+    
     .catch((error) => {
         reject(error);
     });

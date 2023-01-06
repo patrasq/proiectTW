@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
+import auth from '../middleware/auth'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -22,7 +24,10 @@ const router = createRouter({
     {
       path: '/dashboard/profile/:id',
       name: 'profile',
-      component: () => import('../views/Dashboard/Profile.vue')
+      component: () => import('../views/Dashboard/Profile.vue'),
+      meta: {
+        middleware: auth
+      }
     },
     {
       path: '/dashboard/friends',

@@ -1,49 +1,50 @@
 	<template>
-	<div class="container mx-auto px-4">
-		<h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Sign Up</h1>
-		<form class="bg-white border bg-gray-50 rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="handleSubmit">
-		<div class="flex flex-row w-full gap-4">
-			<div class="mb-4 w-6/12">
-				<label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-					First name
-				</label>
-				<input v-model="form.firstName" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="First name">
+
+		<div class="absolute top-0 left-0 z-10 w-full h-full flex flex-col-reverse lg:flex-row">
+			<div class="w-12/12 lg:w-3/12 p-10 flex justify-center flex-col">
+				<h1 class="text-3xl font-bold text-gray-800 mb-6">Sign Up</h1>
+
+				<div class="bg-red-200 text-red-500 rounded-md border border-red-300 p-10 mb-10 w-full" v-if="errors.length">
+					<ul>
+						<li v-for="error in errors" :key="error">{{ error }}</li>
+					</ul>
+				</div>
+
+				<form @submit.prevent="handleSubmit" class="w-full">
+					<div class="mb-4">
+						<label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+							Name
+						</label>
+						<input v-model="form.name" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Name">
+					</div>
+					<div class="mb-4">
+						<label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+							Email
+						</label>
+						<input v-model="form.email" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email">
+					</div>
+					<div class="mb-4">
+						<label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+							Password
+						</label>
+						<input v-model="form.password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="********">
+					</div>
+					<div class="flex items-center justify-between mt-10">
+						<button class="bg-gradient-to-br from-green-400 to-green-600 block py-2 px-8 text-white rounded-full" type="submit">
+							Sign Up
+						</button>
+						<a class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800" href="#">
+							Forgot Password?
+						</a>
+					</div>
+				</form>
 			</div>
-			<div class="mb-4 w-6/12">
-				<label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-					Last name
-				</label>
-				<input v-model="form.lastName" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Last name">
+			<div class="bg-gradient-to-br from-green-300 to-green-400 w-12/12 lg:w-9/12 h-full flex items-center justify-center">
+				<div class="flex flex-col items-center justify-center h-full">
+					<div class="text-white text-4xl font-bold mb-4">Foowa</div>
+				</div>
 			</div>
 		</div>
-		<div class="mb-4">
-			<label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-				Email
-			</label>
-			<input v-model="form.email" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email">
-		</div>
-		<div class="mb-6">
-			<label class="block text-gray-700 text-sm font-bold mb-2" for="phoneNumber">
-				Phone number
-			</label>
-			<input v-model="form.phoneNumber" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phoneNumber" placeholder="Phone number">
-		</div>
-		<div class="mb-4">
-			<label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-				Password
-			</label>
-			<input v-model="form.password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="********">
-		</div>
-		<div class="flex items-center justify-between">
-			<button class="bg-gradient-to-br from-green-400 to-green-600 block py-2 px-8 text-white rounded-full" type="submit">
-				Sign Up
-			</button>
-			<a class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800" href="#">
-				Forgot Password?
-			</a>
-		</div>
-		</form>
-	</div>
 	</template>
 
 	<script>
@@ -53,22 +54,31 @@
 	export default {
 	data() {
 		return {
-		form: {
-			username: '',
-			email: '',
-			password: '',
-			password_confirmation: ''
-		}
+			form: {
+				name: '',
+				email: '',
+				password: '',
+			},
+			errors: []
 		}
 	},
 	methods: {
 		handleSubmit() {
-			api.post('user/register', this.form)
+			this.errors = []
+			api.post('users', this.form)
 				.then(response => {
-					console.log(response)
+					this.$router.push({ name: 'login' })
 				})
 				.catch(error => {
-					console.log(error)
+					if(error.response.data.errors) {
+						error.response.data.errors.forEach(error => {
+							this.errors.push(error)
+						})
+					}
+
+					if(error.response.data.message) {
+						this.errors.push(error.response.data.message)
+					}
 				})
 			}
 		}

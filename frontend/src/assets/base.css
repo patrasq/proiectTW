@@ -1,0 +1,16 @@
+.inter {
+    font-family: 'Inter', sans-serif;
+}
+
+.poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+}
+
+span, label, p, a, button, input, textarea {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}

@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-
     }
   };
 
@@ -23,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -42,6 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'friend_id'
     });
   };
-
+  
   return User;
 };

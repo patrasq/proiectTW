@@ -2,13 +2,18 @@ import axios from 'axios';
 
 // api config
 const apiConfig = {
-    baseURL: 'http://127.0.0.1:3000',
+    baseURL: 'http://localhost:3000',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     }
 };
+
+// if token exists, add it to the header
+if (localStorage.getItem('token')) {
+    apiConfig.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+}
 
 // create axios instance
 const api = axios.create(apiConfig);

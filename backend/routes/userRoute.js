@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     })
     .catch((error) => {
         res.send({
-            message: 'Some error occoured',
+            message: 'Could not complete request.',
             error
         });
     });
@@ -23,12 +23,12 @@ router.post('/login', (req, res) => {
     .then((result) => {
         res.send({
             status: 'success',
-            data: result,
+            data: result
         });
     })
     .catch((error) => {
         res.send({
-            message: 'Some error occoured',
+            message: 'Could not complete request.',
             error
         });
     });
@@ -44,7 +44,7 @@ router.get('/:id', (req, res) => {
     })
     .catch((error) => {
         res.send({
-            message: 'Some error occoured',
+            message: 'Could not complete request.',
             error
         });
     });
@@ -53,6 +53,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
 
     if (!req.body.name || !req.body.email || !req.body.password) {
+        res.status(406);
         res.send({
             message: 'Name, email and password are required',
         });
@@ -67,9 +68,9 @@ router.post('/', (req, res) => {
         });
     })
     .catch((error) => {
-        console.error(error);
+        res.status(406);
         res.send({
-            message: 'Some error occoured',
+            message: 'Could not complete request.',
             error
         });
     });
