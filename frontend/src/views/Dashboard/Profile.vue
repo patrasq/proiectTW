@@ -1,22 +1,38 @@
 <template>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
-  <img src="/profile-image.jpg" alt="Profile image" class="w-full">
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2">John Doe</div>
-    <p class="text-gray-700 text-base">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-    </p>
-  </div>
-  <div class="px-6 py-4">
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#photography</span>
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#travel</span>
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
-    </div>
+    <div class="flex flex-col container mx-auto">
+        <div class="min-h-[150px] bg-gradient-to-br from-green-500 to-green-400 rounded-2xl flex flex-col md:flex-row">
+            <div class="w-12/12 md:w-10/12 p-10">
+                <h1 class="text-5xl font-bold text-white">{{  user.name  }}</h1>
+                <span class="text-2xl font-bold text-white">33 iteme</span>
+            </div>
+            <div class="w-12/12 md:w-2/12 flex items-center justify-center p-10">
+                <span class="bg-green-100 text-green-600 w-full text-center py-2 rounded-full">Add as friend</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import api from '../../services/apiService';
+
 export default {
     name: "Profile",
+
+    data() {
+        return {
+            user: {},
+            errors: []
+        }
+    },
+
+    beforeMount() {
+        // get last part of url
+        const url = window.location.href;
+        const lastPart = url.substr(url.lastIndexOf('/') + 1);
+
+        api.get('/users/' + lastPart).then((response) => {
+            this.user = response.data.data;
+        });
+    },
 }
 </script>

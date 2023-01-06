@@ -44,7 +44,7 @@ const login = (email, password) => new Promise((resolve, reject) => {
     })
 
     .then((user) => {
-        user.dataValues.token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 86400 });
+        user.dataValues.token = jwt.sign({ id: user.id, name: user.name }, process.env.JWT_SECRET, { expiresIn: 86400 });
         resolve(user);
     })
     
