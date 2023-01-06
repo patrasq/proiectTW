@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx sequelize db:migrate && nodemon app.js",
-    "db-migrate": "npx sequelize db:migrate"
+    "db-migrate": "npx sequelize db:migrate",
+    "db-seed": "npx sequelize db:seed:all"
   },
   "author": "",
   "license": "",

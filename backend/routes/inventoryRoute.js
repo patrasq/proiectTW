@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const inventoryController = require('../controller/inventory');
 
-router.get('/', (req, res) => {
-    inventoryController.getAll()
+router.post('/', (req, res) => {
+    inventoryController.create(req.body)
     .then((result) => {
         res.send({
             status: 'success',

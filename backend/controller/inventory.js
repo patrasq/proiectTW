@@ -1,8 +1,7 @@
 const db = require('../models');
-const md5 = require('js-md5');
 
 const getAll = () => new Promise((resolve, reject) => {
-    db.User.findAll()
+    db.Inventory.findAll()
     .then((users) => {
         resolve(users);
     })
