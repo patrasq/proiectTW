@@ -1,11 +1,5 @@
 <template>
     <div class="container mx-auto mt-5">
-        <div class="w-full p-10 rounded-md border bg-gray-50">
-            <div class="flex flex-col md:flex-row">
-                <h1 class="text-3xl font-bold text-black">Andrei's inventory</h1>
-            </div>
-        </div>
-
         <div class="container mx-auto mt-5">
             <div class="w-full p-10 rounded-md border bg-gray-50">
                 <div class="flex flex-col md:flex-row w-full items-center gap-4">

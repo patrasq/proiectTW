@@ -9,14 +9,21 @@
                 <span class="bg-green-100 text-green-600 w-full text-center py-2 rounded-full">Add as friend</span>
             </div>
         </div>
+
+        <Inventory />
     </div>
 </template>
 
 <script>
 import api from '../../services/apiService';
+import Inventory from './Inventory';
 
 export default {
     name: "Profile",
+
+    components: {
+        Inventory
+    },
 
     data() {
         return {
