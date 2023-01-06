@@ -1,16 +1,25 @@
 <template>
     <header>
         <div class="container mx-auto flex flex-row py-3">
-            <div class="w-10/12">
+            <div class="w-8/12">
                 <RouterLink to="/" class="logo">
                     <h1 class="text-green-500">Foowa</h1>
                 </RouterLink>
             </div>
 
-            <div class="flex flex-row gap-5 items-center">
-                <RouterLink to="/" exact>Home</RouterLink>
-                <RouterLink to="/about">About</RouterLink>
-                <template v-if="isAuthenticated">
+            <div class="flex flex-row gap-5 items-center w-4/12 flex justify-end">
+                <template v-if="!isAuthenticated">
+                    <RouterLink to="/" exact>Home</RouterLink>
+                    <RouterLink to="/about">About</RouterLink>
+                    <RouterLink class="bg-gradient-to-br from-green-400 to-green-600 block py-2 px-8 text-white rounded-full" to="/login">Login</RouterLink>
+                </template>
+                <template v-else>
+                    <div>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.25 12V10C17.25 7.1005 14.8995 4.75 12 4.75C9.10051 4.75 6.75 7.10051 6.75 10V12L4.75 16.25H19.25L17.25 12Z"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 16.75C9 16.75 9 19.25 12 19.25C15 19.25 15 16.75 15 16.75"></path>
+                        </svg>
+                    </div>
                     <div class="group bg-gray-100 rounded-full px-4 py-1 relative flex flex-row">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z" fill="#000"/>
@@ -42,7 +51,6 @@
                         </div>
                     </div>
                 </template>
-                <RouterLink v-else class="bg-gradient-to-br from-green-400 to-green-600 block py-2 px-8 text-white rounded-full" to="/login">Login</RouterLink>
             </div>
         </div>
     </header>

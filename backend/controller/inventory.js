@@ -12,15 +12,7 @@ const getAll = () => new Promise((resolve, reject) => {
 });
 
 const create = (userObj) => new Promise((resolve, reject) => {
-    userObj.password = md5(userObj.password);
-
-    db.User.create(userObj)
-    .then((users) => {
-        resolve(users);
-    })
-    .catch((error) => {
-        reject(error);
-    });
+ 
 });
 
 const getById = (id) => new Promise((resolve, reject) => {
