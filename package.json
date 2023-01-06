@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "husky": "^8.0.1"
-  },
-  "scripts": {
-    "prepare": "husky install"
+    "js-md5": "^0.7.3"
   }
 }
