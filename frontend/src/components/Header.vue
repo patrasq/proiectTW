@@ -1,9 +1,9 @@
 <template>
     <header>
-        <div class="container mx-auto flex flex-row py-3">
+        <div class="container mx-auto flex flex-row py-10">
             <div class="w-8/12">
                 <RouterLink to="/" class="logo">
-                    <h1 class="text-green-500">Foowa</h1>
+                    <h1 class="text-green-500 text-2xl">Foowa</h1>
                 </RouterLink>
             </div>
 

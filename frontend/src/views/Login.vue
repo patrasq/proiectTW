@@ -27,9 +27,14 @@
           <button class="bg-gradient-to-br from-green-400 to-green-600 block py-2 px-8 text-white rounded-full" type="submit">
             Log in
           </button>
+          <div class="flex flex-col">
           <a class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800" href="#">
             Forgot Password?
           </a>
+            <RouterLink class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800" to="/register">
+              Create an Account
+            </RouterLink>
+          </div>
         </div>
       </form>
     </div>

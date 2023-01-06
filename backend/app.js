@@ -6,6 +6,8 @@ const app = express();
 
 const userRoute = require('./routes/userRoute');
 const inventoryRoute = require('./routes/inventoryRoute');
+const categoryRoute = require('./routes/categoryRoute');
+const alertRoute = require('./routes/alertRoute');
 
 const accessLog = require('./middleware/accessLog');
 const authenticated = require('./middleware/authenticated');
@@ -26,6 +28,8 @@ app.use((req, res, next) => {
 
 app.use('/users', accessLog, userRoute);
 app.use('/inventory', authenticated, inventoryRoute);
+app.use('/categories', authenticated, categoryRoute);
+app.use('/alerts', authenticated, alertRoute);
 
 app.get('/', (req, res) => {
   res.send({

@@ -21,13 +21,6 @@ router.post('/', (req, res) => {
 router.get('/:userId', (req, res) => {
 
     // If :userId is not friend of current user, return error
-    if (!req.user.friends.includes(req.params.userId)) {
-        res.send({
-            message: 'You are not friend of this user',
-        });
-        return;
-    }
-
     inventoryController.getByUserId(req.params.userId)
     .then((result) => {
         res.send({
@@ -42,7 +35,5 @@ router.get('/:userId', (req, res) => {
         });
     });
 });
-
-
 
 module.exports = router;

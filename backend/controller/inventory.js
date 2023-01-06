@@ -10,6 +10,20 @@ const getAll = () => new Promise((resolve, reject) => {
     });
 });
 
+const getByUserId = (userId) => new Promise((resolve, reject) => {
+    db.Inventory.findAll({
+        where: {
+            user_id: userId
+        }
+    })
+    .then((result) => {
+        resolve(result);
+    })
+    .catch((error) => {
+        reject(error);
+    });
+});
+
 const create = (inventory) => new Promise((resolve, reject) => {
     db.Inventory.create(inventory)
     .then((result) => {
@@ -21,5 +35,6 @@ const create = (inventory) => new Promise((resolve, reject) => {
 });
 
 module.exports = {
-    create
+    create,
+    getByUserId
 }

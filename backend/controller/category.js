@@ -11,5 +11,5 @@ const getAll = () => new Promise((resolve, reject) => {
 });
 
 module.exports = {
-    create
+    getAll
 }

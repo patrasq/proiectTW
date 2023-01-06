@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Inventory.init({
     user_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
-    category: DataTypes.STRING,
+    category_id: DataTypes.INTEGER,
     qty: DataTypes.FLOAT,
     expiresAt: DataTypes.DATE
   }, {
