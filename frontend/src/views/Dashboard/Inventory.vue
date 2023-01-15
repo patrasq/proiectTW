@@ -114,6 +114,8 @@ export default {
             initialInventory: [],
             item: {
                 name: '',
+                user_id: this.user.id,
+                category: '',
                 qty: '',
                 expiresAt: null
             },
