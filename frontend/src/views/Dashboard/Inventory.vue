@@ -31,7 +31,7 @@
                         <span>Expires at</span>
                         <Datepicker v-model="item.expiresAt"></Datepicker>
                     </div>
-                    <button type="submit" class="bg-gradient-to-br from-green-400 to-green-600 block px-4 py-2  text-white rounded-full h-full flex items-center justify-center">Add</button>
+                    <button type="submit" @submit="addItem" class="bg-gradient-to-br from-green-400 to-green-600 block px-4 py-2  text-white rounded-full h-full flex items-center justify-center">Add</button>
                 </form>
             </div>
             <div class="bg-black opacity-50 w-full h-full fixed top-0 left-0" @click="addPopup = false"></div>
@@ -123,7 +123,16 @@ export default {
 
     methods: {
         addItem() {
-            
+            let userId = this.user.id;
+            api.post('/inventory/' + userId, this.item)
+                .then(response => {
+                    this.inventory.push(response.data);
+                    this.initialInventory.push(response.data);
+                    this.addPopup = false;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         }
     },
 
