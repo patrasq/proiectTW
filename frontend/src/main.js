@@ -38,7 +38,10 @@ app.mixin({
         },
 
         isAuthenticated() {
-            return localStorage.getItem('token') !== null;
+            if (localStorage.getItem('token')) {
+                return true;
+            }
+            return false;
         },
 
         decodeJwt() {

@@ -22,7 +22,7 @@
                     </div>
                     <div class="flex flex-col gap-1">
                         <span>Category</span>
-                        <select v-model="item.category" class="appearance-none border rounded bg-white w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <select v-model="item.category_id" class="appearance-none border rounded bg-white w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             <option value="" disabled selected>Select category</option>
                             <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}</option>
                         </select>
@@ -115,7 +115,7 @@ export default {
             item: {
                 name: '',
                 user_id: this.user.id,
-                category: '',
+                category_id: '',
                 qty: '',
                 expiresAt: null
             },
@@ -125,11 +125,17 @@ export default {
 
     methods: {
         addItem() {
-            let userId = this.user.id;
-            api.post('/inventory/' + userId, this.item)
+            this.item.user_id = this.user.id;
+            api.post('/inventory/', this.item)
                 .then(response => {
-                    this.inventory.push(response.data);
-                    this.initialInventory.push(response.data);
+                    this.inventory.push(this.item);
+                    this.item = {
+                        name: '',
+                        user_id: this.user.id,
+                        category_id: '',
+                        qty: '',
+                        expiresAt: null
+                    };
                     this.addPopup = false;
                 })
                 .catch(error => {

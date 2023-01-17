@@ -1,6 +1,7 @@
 const db = require('../models');
 const md5 = require('js-md5');
 const jwt = require('jsonwebtoken');
+const Sequelize = require('sequelize');
 
 const getAll = (search) => new Promise((resolve, reject) => {
     let users = null;
@@ -19,10 +20,11 @@ const getAll = (search) => new Promise((resolve, reject) => {
         users = db.User.findAll();
     }
 
-    console.log(users);
-
     users
     .then((users) => {
+        users.forEach((user) => {
+            user.dataValues.password = null;
+        });
         resolve(users);
     })
     .catch((error) => {
@@ -72,6 +74,14 @@ const login = (email, password) => new Promise((resolve, reject) => {
     });
 });
 
+// const logout = (req, res) => new Promise((resolve, reject) => {
+//     req.session.destroy();
+//     res.send({
+//         status: 'success',
+//         message: 'Logged out successfully.'
+//     });
+// });
+
 const friends = (userId) => new Promise((resolve, reject) => {
     db.User.findByPk(userId, {
         include: [{
@@ -83,6 +93,7 @@ const friends = (userId) => new Promise((resolve, reject) => {
         resolve(user);
     })
     .catch((error) => {
+        console.log(error);
         reject(error);
     });
 });
