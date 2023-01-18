@@ -169,7 +169,6 @@ export default {
     created() {
         setTimeout(() => {
             let userId = this.user.id;
-            console.log(userId);
             api.get('/inventory/' + userId)
                 .then(response => {
                     this.inventory = response.data.data;

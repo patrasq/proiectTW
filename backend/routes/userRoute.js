@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/user');
+const jwt = require('jsonwebtoken');
+
 
 router.get('/', (req, res) => {
     userController.getAll(req.query.search ?? null)
@@ -54,7 +56,16 @@ router.post('/login', (req, res) => {
 // });
 
 router.post('/friends', (req, res) => {
-    userController.friends(req.body.friendId)
+    let token = req.headers.authorization.split('Bearer ')[1];
+    let userId = jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+        if (error) {
+            reject(error);
+        } else {
+            return decoded.id;
+        }   
+    });
+
+    userController.addFriend(userId, req.body.friendId)
         .then((result) => {
             res.send({
                 status: 'success',

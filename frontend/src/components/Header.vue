@@ -7,7 +7,7 @@
                 </RouterLink>
             </div>
             <div class="flex flex-row gap-5 items-center w-4/12 flex justify-end">
-                <template v-if="isAuthenticated() == false">
+                <template v-if="!auth">
                     <RouterLink to="/" exact>Home</RouterLink>
                     <RouterLink to="/about">About</RouterLink>
                     <RouterLink
@@ -21,11 +21,11 @@
                         <div class="grid grid-cols-1 divide-y absolute top-8 left-0 bg-white rounded-md border min-w-[140px]"
                             v-if="foundUsers?.length">
                             <div class="px-5 py-2 flex flex-row gap-2" v-for="user in foundUsers" v-bind:key="user.id">
-                                <RouterLink :to="'dashboard/profile/' + user.id">{{ user.name }}</RouterLink>
+                                <RouterLink :to="route('/dashboard/profile/', {id: user.id})">{{ user.name }}</RouterLink>
                             </div>
                         </div>
                     </div>
-                    <div class="group relative">
+                    <div class="group relative flex flex-row">
                         <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="1.5"
@@ -42,13 +42,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="group bg-gray-100 rounded-full px-4 py-1 relative ">
+                    <div :key="timestamp" class="group bg-gray-100 rounded-full px-4 py-1 relative flex flex-row">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z" fill="#000" />
                         </svg>
                         <span class="text-black">{{ getUser().name }}</span>
                         <div
-                            class="hidden group-hover:grid grid-cols-1 divide-y absolute top-8 left-0 bg-white rounded-md border min-w-[140px]">
+                            class="z-20 hidden group-hover:grid grid-cols-1 divide-y absolute top-8 left-0 bg-white rounded-md border min-w-[140px]">
                             <div class="px-5 py-2 flex flex-row gap-2">
                                 <div class="w-2/12 flex items-center justify-center">
                                     <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -75,9 +75,8 @@
                                         </path>
                                     </svg>
                                 </div>
-                                <RouterLink to="/dashboard/profile">Sign out</RouterLink>
+                                <span @click="logout" class="cursor-pointer">Sign out</span>
                             </div>
-                            <span @click="logout">Logut</span>
                         </div>
                     </div>
                 </template>
@@ -96,6 +95,19 @@
                 alerts: [],
                 searchUser: '',
                 foundUsers: [],
+                timestamp: Date.now()
+            }
+        },
+
+        mounted() {
+            setInterval(() => {
+                this.timestamp = Date.now()
+            }, 1000)
+        },
+        
+        computed: {
+            auth() {
+                return localStorage.getItem('token') ? true : false
             }
         },
 
@@ -116,7 +128,6 @@
         methods: {
             logout() {
                 localStorage.removeItem('token');
-                // this.$router.push({ path: '/dashboard/profile' });
                 this.$router.push({ path: '/' });
             },
 

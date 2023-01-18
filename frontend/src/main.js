@@ -11,6 +11,10 @@ app.use(router)
 
 app.mixin({
     methods: {
+        isAuthenticated() {
+            return localStorage.getItem('token') ? true : false;
+        },
+
         route(path, params) {
             // find routes with matching path
             const matchingRoutes = router.options.routes.filter(route => route.path.startsWith(path))
@@ -35,13 +39,6 @@ app.mixin({
       
             // return original if no match
             return path
-        },
-
-        isAuthenticated() {
-            if (localStorage.getItem('token')) {
-                return true;
-            }
-            return false;
         },
 
         decodeJwt() {

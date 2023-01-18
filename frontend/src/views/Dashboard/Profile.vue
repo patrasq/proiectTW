@@ -48,7 +48,7 @@
         methods: {
             addFriend() {
                 let friendId = this.user.id;
-                api.post('/friends', friendId).then((response) => {
+                api.post('/users/friends', {friendId: friendId}).then((response) => {
                     console.log(response);
                 });
             }
