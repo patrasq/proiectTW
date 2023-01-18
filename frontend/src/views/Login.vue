@@ -68,7 +68,9 @@ methods: {
         // set token to local storage
         localStorage.setItem('token', response.data.data.token)
         // redirect to dashboard
-        this.$router.push({ path: '/dashboard/profile/' + response.data.data.id })
+        this.$router.push({ path: '/dashboard/profile/' + response.data.data.id }).then(() => {
+          window.location.reload()
+        })
       })
       .catch(error => {
         if(error?.response?.data.errors) {

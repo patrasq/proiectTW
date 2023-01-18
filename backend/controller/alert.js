@@ -11,7 +11,7 @@ const getAll = () => new Promise((resolve, reject) => {
 });
 
 const getByUserId = (userId) => new Promise((resolve, reject) => {
-    db.Inventory.findAll({
+    db.Alert.findAll({
         where: {
             user_id: userId
         }
@@ -65,4 +65,5 @@ const checkAlerts = () => new Promise((resolve, reject) => {
 
 module.exports = {
     getAll,
+    getByUserId
 }

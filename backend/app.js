@@ -40,15 +40,15 @@ app.get('/', (req, res) => {
   });
 });
 
-const interval = setInterval(() => {
+setInterval(() => {
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
   const currentMinute = currentTime.getMinutes();
 
-  if (currentHour === 0 && currentMinute === 0) {
+  if (currentHour == 0 && currentMinute == 0) {
     inventoryController.checkAlerts()
   }
-}, 60000);
+}, 1000);
 
 
 app.listen(config.PORT, () => {

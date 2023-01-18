@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     contents: DataTypes.STRING,
     user_id: DataTypes.INTEGER,
-    inventory_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Alert',

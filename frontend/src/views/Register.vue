@@ -41,7 +41,7 @@
 			</div>
 			<div class="bg-gradient-to-br from-green-300 to-green-400 w-12/12 lg:w-9/12 h-full flex items-center justify-center">
 				<div class="flex flex-col items-center justify-center h-full">
-					<div class="text-white text-4xl font-bold mb-4">Foowa</div>
+					<!-- <Router-link :to class="text-white text-4xl font-bold mb-4 cursor-pointer">Foowa</div> -->
 				</div>
 			</div>
 		</div>

@@ -21,6 +21,50 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/friends/:id', (req, res) => {
+    userController.findFriends(req.params.id).then((result) => {
+        res.send({
+            status: 'success',
+            data: result,
+        });
+    })
+        .catch((error) => {
+            console.log(error);
+            res.send({
+                message: 'Could not complete request.',
+                error
+            });
+        });
+});
+
+router.delete('/friends/:id', (req, res) => {
+    let token = req.headers.authorization.split('Bearer ')[1];
+    let userId = jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+        if (error) {
+            reject(error);
+        } else {
+            return decoded.id;
+
+        }
+    });
+
+    userController.removeFriend(userId, req.params.id)
+        .then((result) => {
+            res.send({
+                status: 'success',
+                data: result
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+            res.send({
+                message: 'Could not complete request.',
+                error
+            });
+        });
+});
+
+
 router.post('/login', (req, res) => {
     userController.login(req.body.email, req.body.password)
         .then((result) => {
@@ -38,23 +82,6 @@ router.post('/login', (req, res) => {
         });
 });
 
-// router.get('/logout', (req, res) => {
-//     userController.logout(req, res)
-//         .then((result) => {
-//             res.send({
-//                 status: 'success',
-//                 data: result
-//             });
-//         })
-//         .catch((error) => {
-//             console.log(error);
-//             res.send({
-//                 message: 'Could not complete request.',
-//                 error
-//             });
-//         });
-// });
-
 router.post('/friends', (req, res) => {
     let token = req.headers.authorization.split('Bearer ')[1];
     let userId = jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
@@ -62,9 +89,8 @@ router.post('/friends', (req, res) => {
             reject(error);
         } else {
             return decoded.id;
-        }   
+        }
     });
-
     userController.addFriend(userId, req.body.friendId)
         .then((result) => {
             res.send({
@@ -73,7 +99,7 @@ router.post('/friends', (req, res) => {
             });
         })
         .catch((error) => {
-            console.log(error);
+            res.status(401);
             res.send({
                 message: 'Could not complete request.',
                 error

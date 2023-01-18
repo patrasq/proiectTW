@@ -10,12 +10,30 @@ export default {
     Header
   },
 
+  data() {
+    return {
+      increment: 0
+    }
+  },
+
+  mounted() {
+    console.log(this.$route);
+  },
+
+  watch: {
+    '$route' (to, from) {
+      if(to.path != from.path) {
+        this.increment++;
+      }
+    }
+  }
+
 }
 </script>
 
 <template>
   <div>
     <Header />
-    <RouterView />
+    <RouterView :key="increment" />
   </div>
 </template>

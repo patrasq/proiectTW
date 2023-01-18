@@ -2,6 +2,7 @@ const db = require('../models');
 const md5 = require('js-md5');
 const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
+const { rejects } = require('assert');
 
 const getAll = (search) => new Promise((resolve, reject) => {
     let users = null;
@@ -74,30 +75,82 @@ const login = (email, password) => new Promise((resolve, reject) => {
         });
 });
 
-// const logout = (req, res) => new Promise((resolve, reject) => {
-//     req.session.destroy();
-//     res.send({
-//         status: 'success',
-//         message: 'Logged out successfully.'
-//     });
-// });
-
 const addFriend = (userId, friendId) => new Promise((resolve, reject) => {
-    db.User.findByPk(userId)
-        .then((user) => {
-            db.user_friend.create({user_id: userId, friend_id: friendId})
-                .then((result) => {
-                    resolve(result);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        })
-        .catch((error) => {
-            reject(error);
-        });
+    // verify if they are already friends
+    db.user_friend.findOne({
+        where: {
+            [Sequelize.Op.or]: [
+                {
+                    [Sequelize.Op.and]: [
+                        { user_id: userId },
+                        { friend_id: friendId }
+                    ]
+                },
+                {
+                    [Sequelize.Op.and]: [
+                        { user_id: friendId },
+                        { friend_id: userId }
+                    ]
+                }
+            ]
+        }
+    }).then((result) => {
+        if (result) {
+            reject('Already friends');
+        } else {
+            db.user_friend.create({
+                user_id: userId,
+                friend_id: friendId
+            }).then((result) => {
+                resolve(result);
+            }).catch((error) => {
+                reject(error);
+            });
+        }
+    }).catch((error) => {
+        reject(error);
+    });
 });
 
+const removeFriend = (userId, friendId) => new Promise((resolve, reject) => {
+    db.user_friend.destroy({
+        where: {
+            [Sequelize.Op.or]: [
+                {
+                    [Sequelize.Op.and]: [
+                        { user_id: userId },
+                        { friend_id: friendId }
+                    ]
+                },
+                {
+                    [Sequelize.Op.and]: [
+                        { user_id: friendId },
+                        { friend_id: userId }
+                    ]
+                }
+            ]
+        }
+    }).then((result) => {
+        resolve(result);
+    }).catch((error) => {
+        reject(error);
+    });
+});
+
+const findFriends = (userId) => new Promise((resolve, reject) => {
+    db.user_friend.findAll({
+        where: {
+            [Sequelize.Op.or]: [
+                { user_id: userId },
+                { friend_id: userId }
+            ]
+        }
+    }).then((result) => {
+        resolve(result);
+    }).catch((error) => {
+        reject(error);
+    });
+})
 
 const friends = (userId) => new Promise((resolve, reject) => {
     db.User.findByPk(userId, {
@@ -121,5 +174,7 @@ module.exports = {
     getById,
     login,
     friends,
-    addFriend
+    addFriend,
+    findFriends,
+    removeFriend,
 }

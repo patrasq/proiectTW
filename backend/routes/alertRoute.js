@@ -18,4 +18,20 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+    alertController.getByUserId(req.params.id)
+    .then((result) => {
+        res.send({
+            status: 'success',
+            data: result,
+        });
+    })  
+    .catch((error) => {
+        res.send({
+            message: 'Could not complete request.',
+            error
+        });
+    });
+});
+
 module.exports = router;
